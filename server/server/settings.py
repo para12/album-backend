@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # refresh tokens are optional
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
+    'corsheaders',
 ]
 
 GRAPHENE = {"SCHEMA": 'app.schema.schema',
@@ -79,7 +80,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000'] 
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'server.urls'
 
@@ -160,3 +165,4 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
