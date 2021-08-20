@@ -2,6 +2,7 @@ import jwt
 from graphql import GraphQLError
 from graphql_auth import mutations
 from .schema import schema
+import os
 
 def refreshTokenMiddleWare(get_response):
 
