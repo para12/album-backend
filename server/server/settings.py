@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,16 +48,21 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-GRAPHENE = {"SCHEMA": 'app.schema.schema',
-            'MIDDLEWARE': [
+GRAPHENE = {
+        "SCHEMA": 'app.schema.schema',
+        'MIDDLEWARE': [
                 'graphql_jwt.middleware.JSONWebTokenMiddleware',
+                # 'app.middleware.refreshTokenMiddleWare',
             ],
-            }
+}
 
 GRAPHQL_JWT = {
     "JWT_VERIFY_EXPIRATION": True,
     # optional
     "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    "JWT_EXPIRATION_DELTA": timedelta(seconds=5),
+    "JWT_REFRESH_EXPIRATION_DELTA": timedelta(weeks=50),
+    # "JWT_REFRESH_EXPIRED_HANDLER": lambda orig_iat, context: False,
 
    "JWT_ALLOW_ANY_CLASSES": [
         "graphql_auth.mutations.Register",
@@ -73,6 +80,7 @@ GRAPHQL_JWT = {
 }
 
 MIDDLEWARE = [
+    'app.middleware.refreshTokenMiddleWare',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,8 +91,20 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000'] 
+# CORS_ORIGIN_WHITELIST = ['http://localhost:3000'] 
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
 
 ROOT_URLCONF = 'server.urls'
 
@@ -96,7 +116,7 @@ AUTHENTICATION_BACKENDS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -165,4 +185,4 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
