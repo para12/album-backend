@@ -1,8 +1,6 @@
-from graphene import ObjectType, List
+from graphene import ObjectType, List, Field, String
 from graphene_django import DjangoObjectType
 
-from graphql_auth.schema import UserQuery, MeQuery
-from graphql_auth import mutations
 from graphql_auth import mutations
 
 from .models import User
@@ -12,10 +10,30 @@ class UserType(DjangoObjectType):
         model = User
         fields= '__all__'
 
-class AuthQuery(UserQuery, MeQuery, ObjectType):
+# class UserQuery(ObjectType):
+#     Argument : 
+
+class AllUsers(ObjectType) :
     all_users = List(UserType)
     def resolve_all_users(root, info):
         return User.objects.all()
+
+class Me(ObjectType):
+    me = Field(UserType)
+    def resolve_me(root, info):
+        if info.context.user.is_authenticated:
+            return info.context.user
+        else:
+            return None
+
+class UserByName(ObjectType):
+    user_by_name = Field(UserType, username = String())
+    def resolve_user_by_name(root, info, username):
+        return User.objects.get(username = username)
+
+class AuthQuery(AllUsers, Me, UserByName):
+    pass
+
 
 class AuthMutation(ObjectType):
     register = mutations.Register.Field()

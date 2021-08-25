@@ -1,23 +1,14 @@
 from graphene import ObjectType, List, Schema
 from graphene_django import DjangoObjectType
 from .auth import AuthQuery, AuthMutation
+from .album import AlbumQuery, AlbumMutation
 
 from .models import User, Album
 
-class AlbumType(DjangoObjectType):
-    class Meta:
-        model = Album
-        fields= '__all__'
-
-
-
-class Query(AuthQuery, ObjectType):
-    all_albums = List(AlbumType)
-    def resolve_all_albums(root, info):
-        return Album.objects.all()
+class Query(AuthQuery, AlbumQuery, ObjectType):
     pass
 
-class Mutation(AuthMutation, ObjectType):
+class Mutation(AuthMutation, AlbumMutation, ObjectType):
     pass
 
 schema = Schema(query=Query, mutation=Mutation)

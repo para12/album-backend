@@ -7,7 +7,7 @@ class Album(models.Model) :
     name = models.CharField(max_length=256, default="")
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-  
+
 class Photo(models.Model) :
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     url = models.CharField(max_length=256, default="")

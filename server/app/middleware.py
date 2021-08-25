@@ -44,6 +44,8 @@ def refreshTokenMiddleWare(get_response):
                     response.set_cookie('refreshToken', result.data['refreshToken']['refreshToken'])
                 else :
                     print("token refresh fail")
+                    response.set_cookie('token', '')
+                    response.set_cookie('refreshToken', '')
         return response
 
     return middleware

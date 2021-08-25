@@ -61,7 +61,7 @@ GRAPHQL_JWT = {
     "JWT_VERIFY_EXPIRATION": True,
     # optional
     "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
-    "JWT_EXPIRATION_DELTA": timedelta(seconds=5),
+    "JWT_EXPIRATION_DELTA": timedelta(days=5),
     "JWT_REFRESH_EXPIRATION_DELTA": timedelta(weeks=50),
     # "JWT_REFRESH_EXPIRED_HANDLER": lambda orig_iat, context: False,
 
@@ -186,19 +186,18 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 ALLOW_LOGIN_NOT_VERIFIED = False
+LOGIN_ALLOWED_FIELDS = ["username"]
 
-# EMAIL_FROM = getattr(settings, "DEFAULT_FROM_EMAIL", "test@email.com")
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 GRAPHQL_AUTH = {
     "EMAIL_TEMPLATE_VARIABLES": {
         "frontend_domain": "localhost:3000"
     }
 }
-
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get("EMAIL_ADDRESS")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = os.environ.get("EMAIL_ADDRESS")
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
