@@ -13,10 +13,12 @@ class Photo(models.Model) :
     url = models.CharField(max_length=256, default="")
     text = models.CharField(max_length=256, default="")
     location = models.CharField(max_length=256, default="")
-    time = models.CharField(max_length=256, default="")
+    time = models.DateField(null=True)
+    width = models.IntegerField(null=True) 
+    height = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    album = models.ManyToManyField(Album, related_name='album', default=None)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, null=True)
 
 class RepresentitivePhoto(models.Model) :
     album = models.OneToOneField(Album, on_delete=models.CASCADE, primary_key=True)
