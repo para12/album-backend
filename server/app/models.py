@@ -19,6 +19,7 @@ class Photo(models.Model) :
     created_at = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     album = models.ForeignKey(Album, on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length=256, default="")
 
 class RepresentitivePhoto(models.Model) :
     album = models.OneToOneField(Album, on_delete=models.CASCADE, primary_key=True)
