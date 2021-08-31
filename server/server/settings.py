@@ -28,7 +28,10 @@ SECRET_KEY = os.environ.get("DJANGO_SETTING_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.ap-northeast-2.compute.amazonaws.com']
+ALLOWED_HOSTS = [
+    '.ap-northeast-2.compute.amazonaws.com',
+    '52.79.249.99'
+]
 
 
 # Application definition
